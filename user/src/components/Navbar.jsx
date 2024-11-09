@@ -1,4 +1,4 @@
-import React, { startTransition, useCallback, useState } from 'react';
+import React, { startTransition, useCallback, useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ const Navbar = React.memo(({ token, setToken }) => {
   const [showMenu, setShowMenu] = useState(false);
   // It ensures that the user is logged in
   //const [token, setToken] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
   const goToLogin = useCallback(() => {
     navigate('/login');
@@ -32,9 +33,28 @@ const Navbar = React.memo(({ token, setToken }) => {
     setToken(false);
   }, []);
 
+  const returnToHome = useCallback(() => {
+    navigate('/');
+    scrollTo(0, 0);
+  }, [navigate, scrollTo]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if(window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [])
+
   return (
-    <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 left-0 top-0 z-[999] sticky'>
-        <img className='w-44 cursor-pointer' src={assets.logo} alt='logo' />
+    <div className={`flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 left-0 top-0 z-[999] sticky w-full transition-colors duration-300 ${scrolled ? 'bg-white text-black shadow-lg' : 'bg-transparent text-black'}`}>
+        <img onClick={returnToHome} className='w-44 cursor-pointer' src={assets.logo} alt='logo' />
         <ul className='hidden md:flex items-start gap-5 font-medium uppercase'>
             <NavLink rel='preload' to='/' onClick={() => handleNavigation('/')}>
                 <li className='py-1'>Home</li>

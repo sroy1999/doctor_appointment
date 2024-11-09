@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Speciality = React.memo(() => {
   const handleScroll = useCallback(() => {
     scrollTo(0, 0);
-  }, scrollTo);
+  }, []);
   return (
     <div id='speciality' className='flex flex-col items-center gap-4 py-6 text-gray-800'>
         <h1 className='text-3xl font-medium'>Find by speciality</h1>

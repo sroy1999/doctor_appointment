@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../components/Banner';
 import Speciality from '../components/Speciality';
 import TopDoctors from '../components/TopDoctors';
+import Banner2 from '../components/Banner2';
 
 const Home = ({ token }) => {
   return (
@@ -9,6 +10,7 @@ const Home = ({ token }) => {
       <Banner />
       <Speciality />
       <TopDoctors />
+      <Banner2 />
     </div>
   )
 }
