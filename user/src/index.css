@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* to show underline for the selected menu */
+.active hr {
+    @apply block
+}
+
+::-webkit-scrollbar {
+    @apply hidden
+}

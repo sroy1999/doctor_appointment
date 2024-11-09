@@ -1,0 +1,9 @@
+This project is about a web application through which the user can book appointments with doctors,
+the doctor can see appointments and the admin can manage the doctors' profiles
+
+There are three types of user logins:-
+- User login
+- Doctor login
+- Admin login
+
+The app is integrated with a payment gateway of razorpay
