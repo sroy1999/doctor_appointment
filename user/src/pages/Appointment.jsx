@@ -75,7 +75,7 @@ const Appointment = () => {
     setSlotIndex(index);
   }, [setSlotIndex])
 
-  const handleTimeClick = useCallback((time) => {
+  const handleTimeClick = useCallback((time, index) => {
     setSlotTime(time);
   }, [setSlotTime]);
 
@@ -114,11 +114,10 @@ const Appointment = () => {
             ))
           }
         </div>
-        {/** Proper scrolling animation needs to be implemented */}
-        <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
+        <div className='flex items-center gap-3 w-1/2 overflow-x-scroll mt-7'>
           {
             docSlots.length && docSlots[slotIndex].map((item, index) => (
-              <p onClick={() => handleTimeClick(item.time)} className={`text-sm font-light flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? 'bg-primary text-white' : 'text-gray-400 border border-gray-300'}`} key={index}>{item.time.toLowerCase()}</p>
+              <p onClick={() => handleTimeClick(item.time)} className={`text-sm font-light flex-shrink-1 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? 'bg-primary text-white' : 'text-gray-400 border border-gray-300'}`} key={index} id={`slot-${index}`}>{item.time.toLowerCase()}</p>
             ))
           }
         </div>
