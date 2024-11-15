@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState('Sign up');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,11 +39,13 @@ const Login = () => {
     event.preventDefault();
   }, []);
 
-  const handleVerifyOtp = () => {
-    alert();
+  const handleVerifyOtp = useCallback(() => {
+    //alert();
     setStep(0);
-    setState('Sign in');
-  }
+    // code to verify otp with backend will be addeed and then with a delay of few seconds the user will be redirected to home page
+    navigate('/');
+  }, [setStep, navigate]);
+
   return (
     <form className='min-h-[40vh] flex items-center' onSubmit={() => handleOnSubit(e)}>
       <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg'>
