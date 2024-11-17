@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Loading from '../loading/Loading';
 
 const Home = React.lazy(() => new Promise((resolve) => {
     setTimeout(() => resolve(import('../pages/Home')), 1000)
@@ -15,7 +14,7 @@ const Appointment = React.lazy(() => import('../pages/Appointment'));
 
 const Layout = ({ setToken }) => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<></>}>
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/doctors' element={<Doctors />} />

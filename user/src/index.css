@@ -20,3 +20,19 @@
 ::-webkit-scrollbar:vertical {
     @apply hidden;
 }
+
+@media (max-width: 740px) {
+    .active p {
+        @apply text-white bg-primary
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 0.5ss linear infinite;
+}

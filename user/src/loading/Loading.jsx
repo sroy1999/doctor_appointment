@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Loading = () => {
-  const [showLoading, setShowLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-        setShowLoading(false);
-    }, 9000);
-    return () => clearTimeout(timer);
-  }, []);
+const Loading = React.memo(() => {
 
   return (
-    <div>
-        {
-            showLoading ? (
-                <div className="loader">
-                    {/* Your loading spinner can be a simple CSS animation or a graphic */}
-                    <div className="w-16 h-16 border-4 border-t-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                </div>
-            ) : (<div></div>)
-        }
+    <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
     </div>
   )
-}
+});
 
 export default Loading;

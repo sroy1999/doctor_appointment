@@ -1,9 +1,13 @@
 import React, { startTransition, useCallback, useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { MdMenuOpen } from "react-icons/md";
+import Loading from '../loading/Loading';
+import { LuLogOut } from "react-icons/lu";
 
 const Navbar = React.memo(({ token, setToken }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // to show dropdown menu on clicking the avatar after login
   const [showMenu, setShowMenu] = useState(false);
@@ -16,11 +20,19 @@ const Navbar = React.memo(({ token, setToken }) => {
   }, [navigate]);
 
   const gotoMyProfile = useCallback(()=> {
-    navigate('/my-profile');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/my-profile');
+    }, 1000);
   }, [navigate]);
 
   const gotoMyAppointments = useCallback(() => {
-    navigate('/my-appointments');
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/my-appointments');
+    }, 1000);
   }, [navigate]);
 
   const handleNavigation = useCallback((path) => {
@@ -52,8 +64,17 @@ const Navbar = React.memo(({ token, setToken }) => {
     };
   }, [])
 
+  const handleShowMenu = useCallback(() => {
+    setShowMenu(true);
+  }, [setShowMenu]);
+
+  const handleCloseMenu = useCallback(() => {
+    setShowMenu(false);
+  }, []);
+
   return (
     <div className={`flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 left-0 top-0 z-[999] sticky w-full transition-colors duration-300 ${scrolled ? 'bg-white text-black shadow-lg' : 'bg-transparent text-black'}`}>
+      {loading && <Loading />}
         <img onClick={returnToHome} className='w-44 cursor-pointer' src={assets.logo} alt='logo' />
         <ul className='hidden md:flex items-start gap-5 font-medium uppercase'>
             <NavLink rel='preload' to='/' onClick={() => handleNavigation('/')}>
@@ -82,13 +103,27 @@ const Navbar = React.memo(({ token, setToken }) => {
                         <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>
                             <p onClick={gotoMyProfile} className='hover:text-black cursor-pointer'>My profile</p>
                             <p onClick={gotoMyAppointments} className='hover:text-black cursor-pointer'>My appointments</p>
-                            <p onClick={logout} className='hover:text-black cursor-pointer'>Logout</p>
+                            <p onClick={logout} className='hover:text-black cursor-pointer flex items-center gap-3'>Logout <LuLogOut className='text-red-600 font-semibold' /></p>
                         </div>
                     </div>
                 </div>) : (
                     <button className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block' onClick={goToLogin} disabled={token}>Sign up</button>
                 )
             }
+            <MdMenuOpen className='md:hidden' onClick={handleShowMenu} />
+            {/** Mobile menu */}
+            <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
+              <div className='flex items-center justify-between px-5 py-6'>
+                <img className='w-36' src={assets.logo} alt="" />
+                <img className='w-7' onClick={handleCloseMenu} src={assets.cross_icon} alt="" />
+              </div>
+              <ul className='uppercase flex flex-col items-center gap-3 mt-7 px-5 text-lg font-medium'>
+                <NavLink onClick={handleCloseMenu} to={'/'}><p className='px-4 py-2 rounded inline-block'>Home</p></NavLink>
+                <NavLink onClick={handleCloseMenu} to={'/doctors'}><p className='px-4 py-2 rounded inline-block'>Doctors</p></NavLink>
+                <NavLink onClick={handleCloseMenu} to={'/about'}><p className='px-4 py-2 rounded inline-block'>About</p></NavLink>
+                <NavLink onClick={handleCloseMenu} to={'/contact'}><p className='px-4 py-2 rounded inline-block'>Contact</p></NavLink>
+              </ul>
+            </div>
         </div>
     </div>
   )

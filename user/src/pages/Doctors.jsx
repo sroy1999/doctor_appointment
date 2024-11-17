@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
+import filter from '../assets/filter_icon.png';
 
 const Doctors = () => {
   const { speciality } = useParams();
@@ -8,6 +9,7 @@ const Doctors = () => {
   const navigate = useNavigate();
   const { doctors } = useContext(AppContext);
   const [filterDoctor, setFilterDoctor] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
 
   const applyFilter = () => {
     if(speciality) {
@@ -21,11 +23,16 @@ const Doctors = () => {
     applyFilter();
   }, [doctors, speciality]);
 
+  const handleFilters = useCallback(() => {
+    setShowFilter(prev => !prev);
+  }, [setShowFilter]);
+
   return (
     <div>
       <p className='text-gray-600'>Browse through our list of doctors</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-        <div className='flex flex-col gap-4 text-sm text-gray-600'>
+        <button className={`flex items-center py-1 px-3 border rounded text-sm transition-all sm:hidden ${showFilter ? 'bg-primary text-white' : ''}`} onClick={handleFilters}><img className='w-3 hover:text-white' src={filter} alt='' />Filters</button>
+        <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
           <p onClick={useCallback(() => speciality === 'General physician' ? navigate('/doctors') : navigate('/doctors/General physician'))} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded-full transition-all cursor-pointer ${speciality === "General physician" ? 'bg-indigo-100 text-black' : ''}`}>General physician</p>
           <p onClick={useCallback(() => speciality === 'Gynecologist' ? navigate('/doctors') : navigate('/doctors/Gynecologist'))} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded-full transition-all cursor-pointer ${speciality === "Gynecologist" ? 'bg-indigo-100 text-black' : ''}`}>Gynecologist</p>
           <p onClick={useCallback(() => speciality === 'Dermatologist' ? navigate('/doctors') : navigate('/doctors/Dermatologist'))} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded-full transition-all cursor-pointer ${speciality === "Dermatologist" ? 'bg-indigo-100 text-black' : ''}`}>Dermatologist</p>
