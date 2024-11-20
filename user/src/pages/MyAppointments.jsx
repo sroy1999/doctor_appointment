@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
+import LazyImage from '../components/LazyImage';
 
 const MyAppointments = () => {
   const { doctors } = useContext(AppContext);
@@ -29,8 +30,8 @@ const MyAppointments = () => {
         {
           doctors.slice(0, 3).map((item, index) => (
             <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b' key={index}>
-              <div>
-                <img className='w-32 bg-indigo-100' src={item.image} alt="" />
+              <div className='w-32 bg-indigo-100 object-cover'>
+                <LazyImage className='w-full h-full' src={item.image} alt="" effect="blur" style={{ objectFit: "cover" }} />
               </div>
               <div className='flex-1 text-sm text-zinc-600'>
                 <p className='text-neutral-800 font-semibold'>{item.name}</p>

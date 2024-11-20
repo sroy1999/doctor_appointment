@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { assets } from '../assets/assets';
+import LazyImage from '../components/LazyImage';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -50,7 +51,9 @@ const Profile = () => {
   
   return (
     <div className='max-w-lg flex flex-col gap-2 text-sm'>
-      <img className='w-36 rounded-full' src={userData.image} alt="" />
+      <div className='w-36'>
+        <LazyImage className='rounded-full' src={userData.image} alt="" />
+      </div>
       {
         edit ? (
           <input className='bg-gray-200 p-2 rounded text-3xl font-medium max-w-60 mt-4' type='text' value={userData.name} onChange={handleNameChange} />

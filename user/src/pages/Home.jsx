@@ -4,7 +4,7 @@ import Speciality from '../components/Speciality';
 import TopDoctors from '../components/TopDoctors';
 import Banner2 from '../components/Banner2';
 
-const Home = ({ token }) => {
+const Home = () => {
   return (
     <div>
       <Banner />

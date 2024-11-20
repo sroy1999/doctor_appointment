@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const Banner2 = React.memo(() => {
   const navigate = useNavigate();
@@ -19,8 +21,11 @@ const Banner2 = React.memo(() => {
             <button onClick={handleClick} className='bg-white text-sm sm:text-base text-gray-600 px-8 py-3 rounded-full mt-6 hover:scale-105 transition-all'>Create account</button>
         </div>
         {/** Right */}
-        <div className='hidden md:block md:w-1/2 lg:w-[370px] relative'>
-            <img className='w-full absolute bottom-0 right-0 max-w-md' src={assets.appointment_img} alt="" />
+        <div className='hidden md:block md:w-1/2 lg:w-[370px] relative h-auto'>
+            <picture>
+              <source srcSet={assets.appointment_img} type='image/webp' />
+              <img className='w-full absolute bottom-0 right-0 max-w-md' src={assets.appointment_img} alt="" effect="blur" loading='lazy' />
+            </picture>
         </div>
     </div>
   )

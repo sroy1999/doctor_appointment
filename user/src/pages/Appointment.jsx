@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { assets } from '../assets/assets';
 import RelatedDoctors from '../components/RelatedDoctors';
+import LazyImage from '../components/LazyImage';
 
 const Appointment = () => {
   const { docId } = useParams();
@@ -84,7 +85,7 @@ const Appointment = () => {
       {/** Doctor details */}
       <div className='flex flex-col sm:flex-row gap-4'>
         <div>
-          <img className='bg-primary w-full sm:max-w-72 rounded-lg' src={docInfo.image} alt="" />
+          <LazyImage className='bg-primary w-full sm:max-w-72 rounded-lg' src={docInfo.image} alt="" effect="blur" />
         </div>
         <div className='flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0'>
           {/** doctor info */}

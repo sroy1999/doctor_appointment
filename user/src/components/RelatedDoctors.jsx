@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import LazyImage from './LazyImage';
 
 const RelatedDoctors = React.memo(({ docId, speciality }) => {
   const { doctors } = useContext(AppContext);
@@ -27,7 +28,7 @@ const RelatedDoctors = React.memo(({ docId, speciality }) => {
         {
           relatedDoctors.slice(0, 5).map((item, index) => (
             <div onClick={() => handleNavigation(`/appointment/${item._id}`)} key={index} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500'>
-              <img className='bg-blue-50' src={item.image} alt="" />
+              <LazyImage className='bg-blue-50' src={item.image} alt="" effect="blur" />
               <div className='p-4'>
                 <div className='flex items-center gap-2 text-sm text-center text-green-500'>
                   <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>

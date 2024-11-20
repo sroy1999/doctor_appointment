@@ -4,8 +4,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { MdMenuOpen } from "react-icons/md";
 import Loading from '../loading/Loading';
 import { LuLogOut } from "react-icons/lu";
+import LazyImage from "./LazyImage";
 
 const Navbar = React.memo(({ token, setToken }) => {
+  const preloadComponent = (componentImport) => {
+    componentImport().then((module) => module.default);
+  };
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -72,24 +77,36 @@ const Navbar = React.memo(({ token, setToken }) => {
     setShowMenu(false);
   }, []);
 
+  const preloadDoctors = useCallback(() => {
+    import('../pages/Doctors');
+  });
+
+  const preloadAbout = useCallback(() => {
+    import('../pages/About');
+  });
+
+  const preloadContact = useCallback(() => {
+    import('../pages/Contact');
+  });
+
   return (
     <div className={`flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 left-0 top-0 z-[999] sticky w-full transition-colors duration-300 ${scrolled ? 'bg-white text-black shadow-lg' : 'bg-transparent text-black'}`}>
       {loading && <Loading />}
-        <img onClick={returnToHome} className='w-44 cursor-pointer' src={assets.logo} alt='logo' />
+        <LazyImage onClick={returnToHome} className='w-44 cursor-pointer' src={assets.logo} alt='logo' effect="blur" />
         <ul className='hidden md:flex items-start gap-5 font-medium uppercase'>
             <NavLink rel='preload' to='/' onClick={() => handleNavigation('/')}>
                 <li className='py-1'>Home</li>
                 <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
             </NavLink>
-            <NavLink rel='preload' to='/doctors' onClick={() => handleNavigation('/doctors')}>
+            <NavLink rel='preload' to='/doctors' onMouseEnter={preloadDoctors} onClick={() => handleNavigation('/doctors')}>
                 <li className='py-1'>Our Doctors</li>
                 <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
             </NavLink>
-            <NavLink rel='preload' to='/about' onClick={() => handleNavigation('/about')}>
+            <NavLink rel='preload' to='/about' onMouseEnter={preloadAbout} onClick={() => handleNavigation('/about')}>
                 <li className='py-1'>About</li>
                 <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
             </NavLink>
-            <NavLink rel='preload' to='/contact' onClick={() => handleNavigation('/contact')}>
+            <NavLink rel='preload' to='/contact' onMouseEnter={preloadContact} onClick={() => handleNavigation('/contact')}>
                 <li className='py-1'>Contact</li>
                 <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
             </NavLink>
@@ -97,8 +114,8 @@ const Navbar = React.memo(({ token, setToken }) => {
         <div className='flex items-center gap-4'>
             {
                 token ? (<div className='flex items-center gap-3 cursor-pointer group relative'>
-                    <img className='w-8 rounded-full' src={assets.profile_pic} alt='profile' />
-                    <img className='w-2.5' src={assets.dropdown_icon} alt="" />
+                    <LazyImage className='w-8 rounded-full' src={assets.profile_pic} alt='profile' effect='blur' style={{ width: "3rem", height: "3rem", borderRadius: "50%" }} />
+                    <LazyImage className='w-2.5' src={assets.dropdown_icon} alt="" />
                     <div className='absolute top-0 right-0 pt-14 text-base font-medium text-gray-500 z-20 hidden group-hover:block'>
                         <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>
                             <p onClick={gotoMyProfile} className='hover:text-black cursor-pointer'>My profile</p>
@@ -114,14 +131,14 @@ const Navbar = React.memo(({ token, setToken }) => {
             {/** Mobile menu */}
             <div className={`${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
               <div className='flex items-center justify-between px-5 py-6'>
-                <img className='w-36' src={assets.logo} alt="" />
-                <img className='w-7' onClick={handleCloseMenu} src={assets.cross_icon} alt="" />
+                <LazyImage className='w-36' src={assets.logo} alt="" effect='blur' />
+                <LazyImage className='w-7' onClick={handleCloseMenu} src={assets.cross_icon} alt="" effect="blur" />
               </div>
               <ul className='uppercase flex flex-col items-center gap-3 mt-7 px-5 text-lg font-medium'>
                 <NavLink onClick={handleCloseMenu} to={'/'}><p className='px-4 py-2 rounded inline-block'>Home</p></NavLink>
-                <NavLink onClick={handleCloseMenu} to={'/doctors'}><p className='px-4 py-2 rounded inline-block'>Doctors</p></NavLink>
-                <NavLink onClick={handleCloseMenu} to={'/about'}><p className='px-4 py-2 rounded inline-block'>About</p></NavLink>
-                <NavLink onClick={handleCloseMenu} to={'/contact'}><p className='px-4 py-2 rounded inline-block'>Contact</p></NavLink>
+                <NavLink onClick={handleCloseMenu} onMouseEnter={preloadDoctors} to={'/doctors'}><p className='px-4 py-2 rounded inline-block'>Doctors</p></NavLink>
+                <NavLink onClick={handleCloseMenu} onMouseEnter={preloadAbout} to={'/about'}><p className='px-4 py-2 rounded inline-block'>About</p></NavLink>
+                <NavLink onClick={handleCloseMenu} onMouseEnter={preloadContact} to={'/contact'}><p className='px-4 py-2 rounded inline-block'>Contact</p></NavLink>
               </ul>
             </div>
         </div>

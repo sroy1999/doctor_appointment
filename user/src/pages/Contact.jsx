@@ -1,5 +1,6 @@
 import React from 'react';
 import { assets } from '../assets/assets';
+import LazyImage from "../components/LazyImage";
 
 const Contact = () => {
   return (
@@ -8,7 +9,7 @@ const Contact = () => {
         <p>Contact <span className='text-gray-700 font-medium'>us</span></p>
       </div>
       <div className='my-10 flex flex-col justify-center md:flex-row gap-10 mb-28 text-sm'>
-        <img className='w-full md:max-w-[360px]' src={assets.contact_image} alt="" />
+        <LazyImage className='w-full md:max-w-[360px]' src={assets.contact_image} alt="" effect="blur" style={{ width: "25rem" }} />
         <div className='flex flex-col justify-center items-start gap-6'>
           <p className='uppercase font-semibold text-lg text-gray-600'>Our office</p>
           <p className='text-gray-500'>9/10-16, Wheeler Rd, <br /> Cleveland Town, Pulikeshi Nagar, Bengaluru, Karnataka 560005, India</p>

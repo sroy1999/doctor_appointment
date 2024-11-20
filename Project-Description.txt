@@ -7,3 +7,10 @@ There are three types of user logins:-
 - Admin login
 
 The app is integrated with a payment gateway of razorpay
+
+For backend:-
+
+- Login to AWS console
+- Setup a VPC and an EC2 instance
+- Launch DocumentDB using the VPC and EC2 instance
+- Configure Amazon S3 for storing the images
