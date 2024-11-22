@@ -1,5 +1,6 @@
 const { S3Client, ListBucketsCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
+const sharp = require('sharp');
 
 let s3;
 
@@ -26,19 +27,19 @@ const listBuckets = async() => {
 
 const uploadImage = async(file) => {
     try {
-        const fileStream = fs.createReadStream(file.path);
         const folderName = 'doctors-image';
-        const fileKey = `${folderName}/${Date.now()}-${file.originalname}`;
+        const fileKey = `${folderName}/${Date.now()}-${file.originalname.replace(/\.[^/.]+$/, ".webp")}`;
+        const webpBuffer = await sharp(file.path).webp().toBuffer();
         const params = {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: fileKey,
-            Body: fileStream,
-            ContentType: file.mimetype
+            Body: webpBuffer,
+            ContentType: 'image/webp'
         };
         const command = new PutObjectCommand(params);
         await s3.send(command);
-        fileStream.destroy();
-        return `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileKey}`;
+        
+        return `${process.env.AWS_CLOUDFRONT_URL}/${fileKey}`;
     } catch (err) {
         throw new Error('Failed to upload image');
     }

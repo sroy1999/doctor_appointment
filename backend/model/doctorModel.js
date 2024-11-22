@@ -58,8 +58,8 @@ const doctorSchema = new mongoose.Schema({
     minimize: false
 });
 
-doctorSchema.methods.toJSON = () => {
-    const doctor = this.castObject();
+doctorSchema.methods.toJSON = function() {
+    const doctor = this.toObject();
     delete doctor.password;
     return doctor;
 }

@@ -69,4 +69,14 @@ const jwt = require('jsonwebtoken');
     }
  }
 
- module.exports = { addDoctors, adminLogin };
+ // get all doctors
+ const allDoctors = async(req, res) => {
+    try {
+        const doctors = await Doctor.find({}).select('-password');
+        res.status(200).json({ success: true, message: "Doctors fetched successfully", doctors});
+    } catch (err) {
+        res.status(400).json({ success: false, message:err.message });
+    }
+ }
+
+ module.exports = { addDoctors, adminLogin, allDoctors };
